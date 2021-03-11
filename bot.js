@@ -11,6 +11,8 @@ client.on("ready", () => {
     channel = client.channels.cache.get(channelName);
 });
 
+var running = false;
+var commandValue;
 
 client.on("message", async message => {
     if (message.author.bot)
@@ -29,7 +31,15 @@ client.on("message", async message => {
     }
     if (command === runningCommand)
     {
-        var commandValue = spawn('Run Web Application.bat');
+
+        if (running)
+        {
+            spawn("kill.bat");
+            running = false;
+        }
+
+        commandValue = spawn('Run Web Application.bat');
+        running = true;
 
         commandValue.stdout.on("data", (data) => {
             console.log(`${data}`);
@@ -39,11 +49,14 @@ client.on("message", async message => {
             console.error(`${data}`);
         });
 
-
+        commandValue.on("exit", (code) => {
+            console.log("left with: " + code);
+        })
         
     }
+
 });
 
 
 
-client.login("ODE5NTgzNTQxNzQxNDg2MTYw.YEoupw.djraFumU6efxoc3Xu0KaqOQpios");
+client.login("ODE5NTgzNTQxNzQxNDg2MTYw.YEoupw.ejwEnGQJWFpJH35czV1sXfbACOo");

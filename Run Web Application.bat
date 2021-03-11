@@ -1,12 +1,19 @@
 @ECHO OFF
 
-:existsLoop
-if not exist web-application (
-	rmdir /S /Q web-application
-	git clone https://github.com/taggagii/web-application
-	goto existsLoop
-) else (
-	cd web-application
+:full
+rmdir /S /Q web-application
+
+git clone https://github.com/taggagii/web-application
+
+cd web-application
+pipenv install
+start pipenv run app.py
+
+:closeProcessLoop
+if exist bye.txt (
+	taskkill /f /im pipenv.exe
+	cd ..
+	goto full
 )
-pipenv install 
-pipenv run app.py
+goto closeProcessLoop
+
