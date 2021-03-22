@@ -14,6 +14,7 @@ def run_command(command, return_output = True):
         return value.communicate()
     
 def kill():
+    global program_instance
     if not program_instance:
         return;
     process = psutil.Process(program_instance.pid)
@@ -22,12 +23,16 @@ def kill():
     process.kill()
     program_instance = False
 
-def download():
+def download_from_git():
     #pull from git
     sub.Popen("git clone https://github.com/taggagii/web-application")
 
-def run():
+def run(download = False):
     global program_instance
+    folders = run_command("dir")
+    print(folders)
+    if "web-application" not in folders or download:
+        download_from_git()
     kill()
     path = my_path+"\\web-application"
     #installing values in pipenv
@@ -35,6 +40,8 @@ def run():
     install_command_instance.communicate()
     
     program_instance = sub.Popen("pipenv run app.py", cwd = path)
+
+run()
 
 
 @client.event
@@ -56,6 +63,12 @@ async def on_message(message):
 
     if checker("kill"):
         kill()
+
+    if checker("download"):
+        download_from_git()
+
+    if checker("run download"):
+        run(download = True)
         
 with open(".key", "r") as key:
     client.run(key.read())
