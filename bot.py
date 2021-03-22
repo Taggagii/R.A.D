@@ -16,7 +16,7 @@ def run_command(command):
 def kill():
     global program_instance
     if not program_instance:
-        return;
+        return "Program instance not initiated";
     process = psutil.Process(program_instance.pid)
     for proc in process.children(recursive = True):
         proc.kill()
