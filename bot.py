@@ -40,7 +40,8 @@ def download_from_git():
     instance = sub.Popen("git clone https://github.com/taggagii/web-application")
     instance.communicate()
     currently_installed = True
-
+    return "Successfully downloaded"
+    
 def run(download = False):
     global program_instance
     folders = run_command("dir")
@@ -53,6 +54,7 @@ def run(download = False):
     install_command_instance.communicate()
     
     program_instance = sub.Popen("pipenv run app.py", cwd = path)
+    return "App Running"
 
 @client.event
 async def on_ready():
@@ -69,16 +71,16 @@ async def on_message(message):
     checker = lambda command_name: command == command_name
 
     if checker("run"):
-        run()
+        await message.channel.send(run())
 
     if checker("kill"):
-        kill()
+        await message.channel.send(kill())
 
     if checker("download"):
-        download_from_git()
+        await message.channel.send(download_from_git())
 
     if checker("run download"):
-        run(download = True)
+        await message.channel.send(run(download = True))
         
 with open(".key", "r") as key:
     client.run(key.read())
