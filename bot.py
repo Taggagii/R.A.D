@@ -22,6 +22,7 @@ def kill():
         proc.kill()
     process.kill()
     program_instance = False
+    return "Instance Killed"
 
 def delete_if_exists():
     global currently_installed
