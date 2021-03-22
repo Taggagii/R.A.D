@@ -7,11 +7,11 @@ client = discord.Client()
 
 my_path = os.getcwd()
 program_instance = False
+currently_installed = os.path.isdir("web-application")
 
-def run_command(command, return_output = True):
+def run_command(command):
     value = sub.Popen(command, stdout = sub.PIPE, stderr = sub.PIPE)
-    if return_output:
-        return value.communicate()
+    return value.communicate()
     
 def kill():
     global program_instance
@@ -23,14 +23,28 @@ def kill():
     process.kill()
     program_instance = False
 
+def delete_if_exists():
+    global currently_installed
+    kill()
+    if currently_installed:
+        os.system("rmdir /S /Q web-application")
+        while currently_installed:
+            currently_installed = os.path.isdir("web-application")
+
+
 def download_from_git():
     #pull from git
-    sub.Popen("git clone https://github.com/taggagii/web-application")
+    global currently_installed
+    kill()
+    delete_if_exists()
+    instance = sub.Popen("git clone https://github.com/taggagii/web-application")
+    instance.communicate()
+    currently_installed = True
 
 def run(download = False):
     global program_instance
     folders = run_command("dir")
-    if "web-application" not in folders or download:
+    if not currently_installed or download:
         download_from_git()
     kill()
     path = my_path+"\\web-application"
@@ -39,8 +53,6 @@ def run(download = False):
     install_command_instance.communicate()
     
     program_instance = sub.Popen("pipenv run app.py", cwd = path)
-
-run()
 
 
 @client.event
