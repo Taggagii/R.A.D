@@ -54,11 +54,6 @@ def run(download = False):
     
     program_instance = sub.Popen("pipenv run app.py", cwd = path)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 9ada5bbcea8d32642b3714d9db1f5a04aba360be
-
 @client.event
 async def on_ready():
     print("Gitty woke")
