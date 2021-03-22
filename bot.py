@@ -30,7 +30,6 @@ def download_from_git():
 def run(download = False):
     global program_instance
     folders = run_command("dir")
-    print(folders)
     if "web-application" not in folders or download:
         download_from_git()
     kill()
