@@ -40,7 +40,6 @@ def run(download = False):
     
     program_instance = sub.Popen("pipenv run app.py", cwd = path)
 
-run()
 
 
 @client.event
