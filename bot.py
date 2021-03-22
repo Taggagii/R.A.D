@@ -57,6 +57,6 @@ async def on_message(message):
     if checker("kill"):
         kill()
         
+with open(".key", "r") as key:
+    client.run(key.read())
 
-
-client.run("ODIzNjU2NDA5OTk5NjA1ODEw.YFj_zg.C237t3zodix7fS_8eVupghQcueA")
