@@ -82,6 +82,9 @@ async def on_message(message):
 
     if checker("run download"):
         await message.channel.send(run(download = True))
+    if checker("ping"):
+        currently_installed = os.path.isdir("web-application")
+        await message.channel.send("Running:" + f"\n{program_instance=}, {currently_installed=}")
         
 with open(".key", "r") as key:
     client.run(key.read())
