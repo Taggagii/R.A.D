@@ -13,4 +13,4 @@ Deletes the previous download of the repo (if one exists) and grabs a new one fr
 Send's some general information about if the bot is running and if it's downloaded (can be used to see if the bot is currently runninging or if it's been broken by something
 
 ## WHY THE EXE?!?
-There's an exe made with pyinstaller in the "dist" folder above. Though it is not proper, I was the only person I forsaw using this app so there wouldn't be a console window sitting open on the server, that could be closed easily or by accident
+There's an exe made with pyinstaller in the "dist" folder above. Though it is not proper, I was the only person I foresaw using this app so there wouldn't be a console window sitting open on the server, that could be closed easily or by accident
