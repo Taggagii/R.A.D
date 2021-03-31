@@ -65,7 +65,17 @@ def run(download = False):
 async def on_ready():
     print("Gitty woke")
 
+def remove_repeats(values, exceptions = []):
+    newList = []
+    [newList.append(value) for value in values if value not in newList or value in exceptions]
+    return newList
 
+def fix_user_log(user):
+    #fixing repeats
+    values = open("User-Logs.txt", "r").readlines()
+    values = remove_repeats(values, ["-----WebSite Restart---"])
+    with open("User Logs.txt", "w") as file:
+        file.write("\n".join(values))
 
 @client.event
 async def on_message(message):
@@ -94,6 +104,7 @@ async def on_message(message):
 
     if checker("show log"):
         if currently_installed:
+            fix_user_log()
             values = open("web-application/User Logs.txt", "r").read()
             length_of_output = len(values)
             number_of_sections = math.ceil(length_of_output / 2000)
