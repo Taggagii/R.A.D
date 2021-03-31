@@ -70,7 +70,7 @@ def remove_repeats(values, exceptions = []):
     [newList.append(value) for value in values if value not in newList or value in exceptions]
     return newList
 
-def fix_user_log(user):
+def fix_user_log():
     #fixing repeats
     values = open("User-Logs.txt", "r").readlines()
     values = remove_repeats(values, ["-----WebSite Restart---"])
