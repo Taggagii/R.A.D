@@ -2,12 +2,15 @@ import discord
 import os
 import subprocess as sub
 import psutil
+import math
 
 client = discord.Client()
 
 my_path = os.getcwd()
+path = my_path+"\\web-application"
 program_instance = False
 currently_installed = os.path.isdir("web-application")
+sub.Popen("pip install pipenv")
 
 def run_command(command):
     value = sub.Popen(command, stdout = sub.PIPE, stderr = sub.PIPE)
@@ -45,16 +48,17 @@ def download_from_git():
     
 def run(download = False):
     global program_instance
-    folders = run_command("dir")
     if not currently_installed or download:
         download_from_git()
     kill()
-    path = my_path+"\\web-application"
+    
     #installing values in pipenv
     install_command_instance = sub.Popen("pipenv install", cwd = path)
     install_command_instance.communicate()
     
     program_instance = sub.Popen("pipenv run app.py", cwd = path)
+    import time
+    time.sleep(5)
     return "App Running"
 
 @client.event
@@ -65,6 +69,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global currently_installed
     if message.author.bot or not message.channel.id == 819580264312995911:
         return;
     command = message.content
@@ -82,10 +87,23 @@ async def on_message(message):
 
     if checker("run download"):
         await message.channel.send(run(download = True))
+        
     if checker("ping"):
         currently_installed = os.path.isdir("web-application")
         await message.channel.send("Running:" + f"\n{program_instance=}, {currently_installed=}")
-        
+
+    if checker("show log"):
+        if currently_installed:
+            values = open("web-application/User Logs.txt", "r").read()
+            length_of_output = len(values)
+            number_of_sections = math.ceil(length_of_output / 2000)
+            section_length = math.ceil(length_of_output / number_of_sections)
+            for i in range(number_of_sections):
+                index = i * section_length
+                await message.channel.send(values[index:index + section_length])
+            
+                
+            
 with open(".key", "r") as key:
     client.run(key.read())
 
