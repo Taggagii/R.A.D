@@ -94,7 +94,7 @@ async def on_message(message):
 
     if checker("show log"):
         if currently_installed:
-            values = open("web-application/User Logs.txt", "r").read()
+            values = open("web-application/User-Logs.txt", "r").read()
             length_of_output = len(values)
             number_of_sections = math.ceil(length_of_output / 2000)
             section_length = math.ceil(length_of_output / number_of_sections)
