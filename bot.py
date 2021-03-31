@@ -72,9 +72,9 @@ def remove_repeats(values, exceptions = []):
 
 def fix_user_log():
     #fixing repeats
-    values = open("User-Logs.txt", "r").readlines()
+    values = open("web-application/User-Logs.txt", "r").readlines()
     values = remove_repeats(values, ["-----WebSite Restart---"])
-    with open("User Logs.txt", "w") as file:
+    with open("web-application/User-Logs.txt", "w") as file:
         file.write("\n".join(values))
 
 @client.event
